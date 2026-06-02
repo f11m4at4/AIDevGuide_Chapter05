@@ -54,7 +54,7 @@ class ComfyUIHelper:
         with urllib.request.urlopen(url) as response:
             return json.loads(response.read())
     
-    def wait_for_completion(self, prompt_id: str, timeout: int = 120) -> dict:
+    def wait_for_completion(self, prompt_id: str, timeout: int = 180) -> dict:
         """
         작업 완료까지 폴링 방식으로 대기
         
@@ -68,6 +68,7 @@ class ComfyUIHelper:
         Raises:
             TimeoutError: 지정 시간 내 미완료 시
         """
+        # 고해상도 텍스처 생성과 ComfyUI 큐 지연을 고려해 최대 180초까지 대기합니다.
         start_time = time.time()
         while time.time() - start_time < timeout:
             history = self.get_history(prompt_id)
